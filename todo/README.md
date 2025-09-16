@@ -1,19 +1,163 @@
-# README
+# Todo приложение с Wails
 
-## About
+Современное десктопное приложение для управления задачами, построенное с использованием Wails v2 (Go + React).
 
-This is the official Wails React template.
+## Описание
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+Это приложение представляет собой полнофункциональный менеджер задач с возможностями:
 
-## Live Development
+- **Аутентификация пользователей** - регистрация и вход в систему
+- **Управление задачами** - создание, редактирование, удаление и отметка выполнения задач
+- **Современный интерфейс** - красивый и отзывчивый UI на React
+- **Кроссплатформенность** - работает на Windows, macOS и Linux
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+## Технологии
 
-## Building
+### Backend (Go)
 
-To build a redistributable, production mode package, use `wails build`.
+- **Wails v2** - фреймворк для создания десктопных приложений
+- **PostgreSQL** - база данных для хранения пользователей и задач
+- **JWT** - аутентификация и авторизация
+- **GORM** - ORM для работы с базой данных
+
+### Frontend (React)
+
+- **React 18** - библиотека для создания пользовательского интерфейса
+- **React Router** - маршрутизация между страницами
+- **CSS3** - стилизация с современными возможностями
+- **Vite** - быстрый сборщик и dev-сервер
+
+## Структура проекта
+
+```
+todo/
+├── app.go                 # Основные функции приложения
+├── main.go               # Точка входа
+├── internal/
+│   ├── bindings/         # Биндинги для Wails
+│   ├── models/           # Модели данных
+│   ├── repository/       # Слой доступа к данным
+│   └── services/         # Бизнес-логика
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # React компоненты
+│   │   ├── contexts/     # React контексты
+│   │   └── wailsjs/      # Автогенерированные биндинги
+│   └── dist/             # Собранный фронтенд
+└── build/                # Собранное приложение
+```
+
+## Установка и запуск
+
+### Требования
+
+- Go 1.19+
+- Node.js 16+
+- PostgreSQL 12+
+- Wails v2
+
+### Установка Wails
+
+```bash
+go install github.com/wailsapp/wails/v2/cmd/wails@latest
+```
+
+### Настройка базы данных
+
+1. Установите PostgreSQL
+2. Создайте базу данных:
+
+```sql
+CREATE DATABASE intern_test;
+```
+
+### Запуск в режиме разработки
+
+```bash
+# Установка зависимостей
+cd frontend
+npm install
+
+# Возврат в корень проекта
+cd ..
+
+# Запуск в режиме разработки
+wails dev
+```
+
+### Сборка для продакшена
+
+```bash
+# Сборка фронтенда
+cd frontend
+npm run build
+
+# Возврат в корень проекта
+cd ..
+
+# Сборка приложения
+wails build
+```
+
+## Функциональность
+
+### Аутентификация
+
+- Регистрация новых пользователей
+- Вход в систему
+- Сохранение сессии
+- Автоматический выход при истечении токена
+
+### Управление задачами
+
+- Создание новых задач
+- Просмотр списка всех задач
+- Отметка задач как выполненных/невыполненных
+- Удаление задач
+- Статистика выполнения
+
+### Интерфейс
+
+- Адаптивный дизайн
+- Современный UI с градиентами и анимациями
+- Интуитивно понятная навигация
+- Обработка ошибок и состояний загрузки
+
+## API
+
+### Аутентификация
+
+- `Login(email, password)` - вход в систему
+- `Register(username, email, password)` - регистрация
+
+### Задачи
+
+- `Create(userID, description)` - создание задачи
+- `GetAllTasks(userID)` - получение всех задач пользователя
+- `GetTaskByID(taskID, userID)` - получение задачи по ID
+- `DeleteTaskByID(taskID, userID)` - удаление задачи
+- `MarkAsDone(taskID, userID)` - отметка как выполненная
+- `MarkAsUndone(taskID, userID)` - отметка как невыполненная
+
+## Разработка
+
+### Структура компонентов
+
+- `Login` - страница входа
+- `Register` - страница регистрации
+- `Tasks` - главная страница с задачами
+- `AuthContext` - контекст аутентификации
+
+### Стили
+
+- `Auth.css` - стили для страниц аутентификации
+- `Tasks.css` - стили для страницы задач
+- `App.css` - глобальные стили
+
+## Лицензия
+
+MIT License
+
+## Автор
+
+bagich06 (kbagahan@gmail.com)
