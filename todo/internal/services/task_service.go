@@ -6,12 +6,11 @@ import (
 )
 
 type TaskService struct {
-	repo       *repository.PGRepo
-	jwtService *JWTService
+	repo repository.TaskRepositoryInterface
 }
 
-func NewTaskService(repo *repository.PGRepo, jwtService *JWTService) *TaskService {
-	return &TaskService{repo: repo, jwtService: jwtService}
+func NewTaskService(repo repository.TaskRepositoryInterface) *TaskService {
+	return &TaskService{repo: repo}
 }
 
 func (s *TaskService) CreateTask(userID int, description string) (int, error) {

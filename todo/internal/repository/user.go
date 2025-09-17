@@ -5,6 +5,13 @@ import (
 	"todo/internal/models"
 )
 
+type UserRepositoryInterface interface {
+	CreateUser(user models.User) (int, error)
+	GetUserByEmail(email string) (models.User, error)
+	GetUserByID(id int) (models.User, error)
+	UserExists(email string) (bool, error)
+}
+
 func (repo *PGRepo) CreateUser(user models.User) (int, error) {
 	err := repo.pool.QueryRow(context.Background(), `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`, user.Username, user.Email, user.Password).Scan(&user.ID)
 	if err != nil {

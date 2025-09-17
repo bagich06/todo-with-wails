@@ -5,6 +5,15 @@ import (
 	"todo/internal/models"
 )
 
+type TaskRepositoryInterface interface {
+	CreateTask(task models.Task, userID int) (int, error)
+	GetAllTasks(userID int) ([]models.Task, error)
+	GetTaskByID(taskID, userID int) (models.Task, error)
+	DeleteTaskByID(taskID, userID int) error
+	MarkAsDone(id, userID int) error
+	MarkAsUndone(id, userID int) error
+}
+
 func (repo *PGRepo) CreateTask(task models.Task, userID int) (int, error) {
 	err := repo.pool.QueryRow(context.Background(), `INSERT INTO tasks(user_id, description, is_done) VALUES ($1, $2, $3) RETURNING id`, userID, task.Description, task.IsDone).Scan(&task.ID)
 	if err != nil {

@@ -7,11 +7,11 @@ import (
 )
 
 type UserService struct {
-	repo       *repository.PGRepo
+	repo       repository.UserRepositoryInterface
 	jwtService *JWTService
 }
 
-func NewUserService(repo *repository.PGRepo, jwtService *JWTService) *UserService {
+func NewUserService(repo repository.UserRepositoryInterface, jwtService *JWTService) *UserService {
 	return &UserService{repo: repo, jwtService: jwtService}
 }
 

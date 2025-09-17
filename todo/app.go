@@ -29,7 +29,7 @@ func (a *App) OnStartup(ctx context.Context) {
 
 	jwtService := services.NewJWTService()
 	userService := services.NewUserService(db, jwtService)
-	taskService := services.NewTaskService(db, jwtService)
+	taskService := services.NewTaskService(db)
 
 	a.authBinding = bindings.NewAuthBinding(userService)
 	a.taskBindings = bindings.NewTaskBindings(taskService)
